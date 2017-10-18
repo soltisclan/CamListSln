@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamList", "CamList\CamList.csproj", "{F44F6B97-EFCE-4BEB-845B-8FFE09346514}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F44F6B97-EFCE-4BEB-845B-8FFE09346514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F44F6B97-EFCE-4BEB-845B-8FFE09346514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F44F6B97-EFCE-4BEB-845B-8FFE09346514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F44F6B97-EFCE-4BEB-845B-8FFE09346514}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF2E96E6-E454-4D03-90CA-82F9E67BC8C2}
+	EndGlobalSection
+EndGlobal
