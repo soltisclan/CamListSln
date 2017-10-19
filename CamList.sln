@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamList", "CamList\CamList.csproj", "{F44F6B97-EFCE-4BEB-845B-8FFE09346514}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CamList", "CamList\CamList.csproj", "{F44F6B97-EFCE-4BEB-845B-8FFE09346514}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CamListTest", "CamListTest\CamListTest.csproj", "{A8BC0D9C-911B-45A4-9ACD-FFF03274D45C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F44F6B97-EFCE-4BEB-845B-8FFE09346514}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F44F6B97-EFCE-4BEB-845B-8FFE09346514}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F44F6B97-EFCE-4BEB-845B-8FFE09346514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8BC0D9C-911B-45A4-9ACD-FFF03274D45C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8BC0D9C-911B-45A4-9ACD-FFF03274D45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8BC0D9C-911B-45A4-9ACD-FFF03274D45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8BC0D9C-911B-45A4-9ACD-FFF03274D45C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

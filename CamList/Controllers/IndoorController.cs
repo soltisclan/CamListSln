@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using CamList.Models;
 
 namespace CamList.Controllers
 {
@@ -13,8 +14,10 @@ namespace CamList.Controllers
     {
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Video> Get()
         {
+
+            var videos = new List<Video>();
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -23,7 +26,15 @@ namespace CamList.Controllers
             var Configuration = builder.Build();
 
             var files = Directory.GetFiles(Configuration["BasePath"] + "Amcrest\\Indoor\\FI9821W_C4D6553CA13C\\record");
-            return files ;
+
+
+            foreach (string file in files)
+            {
+                var video = new Video(file);
+                videos.Add(video);
+            }
+
+            return videos ;
         }
 
         // GET api/values/5

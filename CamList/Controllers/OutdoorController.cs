@@ -7,6 +7,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using CamList.Models;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace CamList.Controllers
 {
@@ -45,10 +46,16 @@ namespace CamList.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{filename}")]
+        public FileStreamResult Get(string filename)
         {
-            return "value";
+            var video = new Video(Base64Decode(filename));
+            var stream = new FileStream(video.FullPath, FileMode.Open);
+
+            return new FileStreamResult(stream, "application/octet-stream")
+            {
+                FileDownloadName = video.Name
+            };
         }
 
         // POST api/values
@@ -67,6 +74,12 @@ namespace CamList.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }

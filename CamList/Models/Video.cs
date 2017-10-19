@@ -6,19 +6,56 @@ namespace CamList.Models
 
         public long Id {get; set;}
         public string Name {get; set;}
+        public string FullPath { get; set; }
         public DateTime Date {get; set;}
+        public string Path64 { get; set; }
 
         public Video(string filename) {
 
-                // "S:\\t\\Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\2017-10-16\\001\\dav\\21\\21.06.24-21.06.47[M][0@0][0].mp4"
+            // "S:\\t\\Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\2017-10-16\\001\\dav\\21\\21.06.24-21.06.47[M][0@0][0].mp4"
+            // "C:\\Amcrest\\Indoor\\FI9821W_C4D6553CA13C\\record\\MDalarm_20171016_214239.mkv"
 
-                var filenameparts = filename.Split("//");
-                var date = filenameparts[3];
+            var filenameparts = filename
+                        .Substring(filename.IndexOf("Amcrest"), filename.Length-filename.IndexOf("Amcrest"))
+                        .Split("\\");
+            String name;
+            DateTime date;
 
-                Id = 1;
-                Name = "";
-                Date = DateTime.Today;
+            if (filename.Contains("Indoor"))
+            {
+                name = filenameparts[4];
+
+                var datetimeparts = name.Substring(0,name.Length-4).Split("_");
+                var time = name.Substring(0, name.Length - 4).Split("_")[2];
+
+                var datetimestring = datetimeparts[1].Substring(0, 4) + "-" +
+                                      datetimeparts[1].Substring(4, 2) + "-" +
+                                      datetimeparts[1].Substring(6, 2) + "T" +
+                                       time.Substring(0, 2) + ":" +
+                                       time.Substring(2, 2) + ":" +
+                                       time.Substring(4, 2);
+                date = DateTime.Parse(datetimestring);
+
+            }
+            else
+            {
+                name = filenameparts[7];
+                var time = name.Split("-")[0].Replace(".",":");
+
+                date = DateTime.Parse(filenameparts[3]+"T"+time);
+            }
+
+            Id = 1;
+            Name = name;
+            Date = date;
+            FullPath = filename;
+            Path64 = Base64Encode(filename);
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
         }
     }
-
 }
