@@ -1,22 +1,17 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using CamList.Models;
-using Newtonsoft.Json;
-using System.Net.Http.Headers;
 
 namespace CamList.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class OutdoorController : Controller
     {
         // GET api/values
-        [HttpGet]
-        public IEnumerable<Video> Get()
+        [HttpGet("{date?}")]
+        public JsonResult List(string date = "")
         {
 
             var builder = new ConfigurationBuilder()
@@ -36,25 +31,28 @@ namespace CamList.Controllers
                     foreach (string file in tmpFiles) {
                         if (file.Substring(file.Length-4,4) == ".mp4") {
                             var video = new Video(file);
-                            videos.Add(video);
+                            if (date == "" || date == video.GetDate() )
+                            {
+                                videos.Add(video);
+                            }
                         }
                     }
                 }
             }
 
-            return videos;
+            return Json(videos);
         }
 
         // GET api/values/5
         [HttpGet("{filename}")]
-        public FileStreamResult Get(string filename)
+        public FileStreamResult File(string filename)
         {
-            var video = new Video(Base64Decode(filename));
-            var stream = new FileStream(video.FullPath, FileMode.Open);
+            var video = new Video(CiphererService.Decrypt(filename));
+            var stream = new FileStream(CiphererService.Decrypt(filename), FileMode.Open);
 
             return new FileStreamResult(stream, "application/octet-stream")
             {
-                FileDownloadName = video.Name
+                FileDownloadName = video.GetName()
             };
         }
 
@@ -76,7 +74,7 @@ namespace CamList.Controllers
         {
         }
 
-        public static string Base64Decode(string base64EncodedData)
+        public static string DecryptString(string base64EncodedData)
         {
             var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
             return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);

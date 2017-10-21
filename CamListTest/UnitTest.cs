@@ -1,20 +1,9 @@
 using NUnit.Framework;
-namespace CamListTest
+namespace CamList.Tests
 {
     [TestFixture]
     public class UnitTest
     {
-        [Test]
-        [TestCase("S:\\t\\Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\2017-10-16\\001\\dav\\21\\21.06.24-21.06.47[M] [0@0] [0].mp4", "S:\\t\\Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\2017-10-16\\001\\dav\\21\\21.06.24-21.06.47[M] [0@0] [0].mp4")]
-        [TestCase("C:\\Amcrest\\Indoor\\FI9821W_C4D6553CA13C\\record\\MDalarm_20171016_214239.mkv", "C:\\Amcrest\\Indoor\\FI9821W_C4D6553CA13C\\record\\MDalarm_20171016_214239.mkv")]
-        [TestCase("S:\\Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\2017-10-16\\001\\dav\\21\\21.06.24-21.06.47[M] [0@0] [0].mp4", "S:\\Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\2017-10-16\\001\\dav\\21\\21.06.24-21.06.47[M] [0@0] [0].mp4")]
-        [TestCase("C:\\t\\Amcrest\\Indoor\\FI9821W_C4D6553CA13C\\record\\MDalarm_20171016_214239.mkv", "C:\\t\\Amcrest\\Indoor\\FI9821W_C4D6553CA13C\\record\\MDalarm_20171016_214239.mkv")]
-        public void ParseFullPath(string file, string result)
-        {
-            var video = new CamList.Models.Video(file);
-            Assert.AreEqual(result, video.FullPath);
-
-        }
 
         [Test]
         [TestCase("S:\\t\\Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\2017-10-16\\001\\dav\\21\\21.06.24-21.06.47[M] [0@0] [0].mp4", "2017-10-16T21:06:24")]
@@ -39,7 +28,7 @@ namespace CamListTest
         {
             var video = new CamList.Models.Video(file);
 
-            Assert.AreEqual(result, video.Name);
+            Assert.AreEqual(result, video.GetName());
 
         }
     }

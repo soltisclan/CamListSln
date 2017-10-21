@@ -4,11 +4,11 @@ namespace CamList.Models
 {
     public class Video {
 
-        public long Id {get; set;}
-        public string Name {get; set;}
-        public string FullPath { get; set; }
+        private long Id {get; set;}
+        private string Name {get; set;}
+        private string FullPath { get; set; }
         public DateTime Date {get; set;}
-        public string Path64 { get; set; }
+        public string Key { get; set; }
 
         public Video(string filename) {
 
@@ -49,13 +49,18 @@ namespace CamList.Models
             Name = name;
             Date = date;
             FullPath = filename;
-            Path64 = Base64Encode(filename);
+            Key = CiphererService.Encrypt(filename);
+            //Path64 = Base64Encode(filename);
         }
 
-        public static string Base64Encode(string plainText)
+        public string GetDate()
         {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
+            return Date.Date.ToString("yyyy-MM-dd");
+        }
+
+        public string GetName()
+        {
+            return Name;
         }
     }
 }
