@@ -43,17 +43,12 @@ namespace CamList.Controllers
             return Json(videos);
         }
 
-        // GET api/values/5
-        [HttpGet("{filename}")]
-        public FileStreamResult File(string filename)
+        [HttpGet("{key}")]
+        public IActionResult File(string key)
         {
-            var video = new Video(CiphererService.Decrypt(filename));
-            var stream = new FileStream(CiphererService.Decrypt(filename), FileMode.Open,FileAccess.Read);
-
-            return new FileStreamResult(stream, "application/octet-stream")
-            {
-                FileDownloadName = video.GetName()
-            };
+            var video = new Video(CiphererService.Decrypt(key));
+            var stream = new FileStream(video.GetPath(), FileMode.Open, FileAccess.Read);
+            return File(stream, "video/mp4", video.GetName());
         }
 
         // POST api/values

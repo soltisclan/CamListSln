@@ -6,7 +6,7 @@ namespace CamList.Models
 
         private long Id {get; set;}
         private string Name {get; set;}
-        private string FullPath { get; set; }
+        private string Path { get; set; }
         public DateTime Date {get; set;}
         public string Key { get; set; }
 
@@ -48,7 +48,7 @@ namespace CamList.Models
             Id = 1;
             Name = name;
             Date = date;
-            FullPath = filename;
+            Path = filename;
             Key = CiphererService.Encrypt(filename);
             //Path64 = Base64Encode(filename);
         }
@@ -61,6 +61,10 @@ namespace CamList.Models
         public string GetName()
         {
             return Name;
+        }
+        public string GetPath()
+        {
+            return Path;
         }
     }
 }
