@@ -48,7 +48,7 @@ namespace CamList.Controllers
         public FileStreamResult File(string filename)
         {
             var video = new Video(CiphererService.Decrypt(filename));
-            var stream = new FileStream(CiphererService.Decrypt(filename), FileMode.Open);
+            var stream = new FileStream(CiphererService.Decrypt(filename), FileMode.Open,FileAccess.Read);
 
             return new FileStreamResult(stream, "application/octet-stream")
             {

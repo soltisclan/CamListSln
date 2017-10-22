@@ -1,7 +1,9 @@
 ﻿var httpRequest;
 
 function init() {
-    document.getElementById("date").valueAsDate = new Date();
+    var date = new Date();
+    date = date.setMinutes(date.getMinutes()-date.getTimezoneOffset());
+    document.getElementById("date").valueAsDate = new Date(date);
     getVideos(document.getElementById("date").value) 
 }
 
