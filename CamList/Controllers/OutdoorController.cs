@@ -24,14 +24,38 @@ namespace CamList.Controllers
 
             var videos = new List<Video>();
 
-            foreach (string day in days) {
-                var hours = Directory.GetDirectories(day + "\\001\\dav");
-                foreach (string hour in hours) {
-                    var tmpFiles = Directory.GetFiles(hour);            
-                    foreach (string file in tmpFiles) {
-                        if (file.Substring(file.Length-4,4) == ".mp4") {
+            if (date == "")
+            {
+                foreach (string day in days)
+                {
+                    var hours = Directory.GetDirectories(day + "\\001\\dav");
+                    foreach (string hour in hours)
+                    {
+                        var tmpFiles = Directory.GetFiles(hour);
+                        foreach (string file in tmpFiles)
+                        {
+                            if (file.Substring(file.Length - 4, 4) == ".mp4")
+                            {
+                                var video = new Video(file);
+                                if (date == "" || date == video.GetDate())
+                                {
+                                    videos.Add(video);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else { 
+                var hours = Directory.GetDirectories(Configuration["BasePath"] + "Amcrest\\Outdoor\\AMC0200KBE29V0X8B2\\" + date + "\\001\\dav");
+                foreach (string hour in hours)
+                {
+                    var tmpFiles = Directory.GetFiles(hour);
+                    foreach (string file in tmpFiles)
+                    {
+                        if (file.Substring(file.Length - 4, 4) == ".mp4")
+                        {
                             var video = new Video(file);
-                            if (date == "" || date == video.GetDate() )
+                            if (date == "" || date == video.GetDate())
                             {
                                 videos.Add(video);
                             }
@@ -39,6 +63,7 @@ namespace CamList.Controllers
                     }
                 }
             }
+
 
             return Json(videos);
         }
