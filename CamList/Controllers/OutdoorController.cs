@@ -10,8 +10,8 @@ namespace CamList.Controllers
     public class OutdoorController : Controller
     {
         // GET api/values
-        [HttpGet("{date?}")]
-        public JsonResult List(string date = "")
+        [HttpGet("{date}")]
+        public JsonResult List(string date)
         {
 
             var builder = new ConfigurationBuilder()
@@ -66,6 +66,30 @@ namespace CamList.Controllers
 
 
             return Json(videos);
+        }
+
+        [HttpGet]
+        public JsonResult List()
+        {
+            var builder = new ConfigurationBuilder()
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddJsonFile("appsettings.json");
+
+            var Configuration = builder.Build();
+
+            var days = Directory.GetDirectories(Configuration["BasePath"] + "Amcrest\\Outdoor\\AMC0200KBE29V0X8B2");
+
+            var dates= new List<string>();
+
+            foreach (string day in days)
+            {
+                var date = day
+                        .Substring(day.IndexOf("Amcrest"), day.Length - day.IndexOf("Amcrest"))
+                        .Split("\\")[3];
+                dates.Add(date);
+            }
+
+            return Json(dates);
         }
 
         [HttpGet("{key}")]

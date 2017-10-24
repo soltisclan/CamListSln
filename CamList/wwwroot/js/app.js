@@ -2,9 +2,35 @@
 
 function init() {
     var date = new Date();
-    date = date.setMinutes(date.getMinutes()-date.getTimezoneOffset());
-    document.getElementById("date").valueAsDate = new Date(date);
-    getVideos(document.getElementById("date").value) 
+    date = date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    getDates();
+}
+
+function getDates() {
+    httpRequest = new XMLHttpRequest();
+
+    if (!httpRequest) {
+        alert('Giving up :( Cannot create an XMLHTTP instance');
+        return false;
+    }
+    httpRequest.onreadystatechange = setDates;
+    httpRequest.open('GET', 'api/outdoor/list/');
+    httpRequest.send();
+}
+
+function setDates() {
+
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+            var dates = JSON.parse(httpRequest.response);
+            var datepicker = document.getElementById("date");
+            datepicker.setAttribute("max", dates[dates.length - 1]);
+            datepicker.setAttribute("min", dates[0]);
+            datepicker.valueAsDate = new Date(dates[dates.length - 1]);
+            getVideos(document.getElementById("date").value) 
+        }
+    }
+
 }
 
 function getVideos(date) {
@@ -27,12 +53,24 @@ function loadVideos() {
                 contentDiv.removeChild(contentDiv.lastChild);
             }
             var videos = JSON.parse(httpRequest.response);
+            var previousHour = "";
             videos.reverse();
             videos.forEach(function (video) {
                 var a = document.createElement("A");
                 var br = document.createElement("BR");
-                var linkText = document.createTextNode(video.date);
-                a.appendChild(linkText);
+                var fileSize = video.size / 1048576;
+                var linkTime = document.createTextNode(getTime(video.date) + " " + fileSize.toFixed(2) + "MB");
+
+                var currentHour = getTime(video.date).substring(0, 2);
+                if (currentHour != previousHour) {
+                    var p = document.createElement("P");
+                    var linkHour = document.createTextNode(currentHour);
+                    p.appendChild(linkHour);
+                    contentDiv.appendChild(p);
+                }
+                previousHour = currentHour;
+
+                a.appendChild(linkTime);
                 var onClickAttr = document.createAttribute("onclick");
                 onClickAttr.value = "playVideo('api/outdoor/file/" + video.key + "')";
                 a.setAttributeNode(onClickAttr);
@@ -67,4 +105,8 @@ function playVideo(sourceURL) {
 
     video.play();
 
+}
+
+function getTime(datetime) {
+    return datetime.split("T")[1];
 }

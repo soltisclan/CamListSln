@@ -9,6 +9,7 @@ namespace CamList.Models
         private string Path { get; set; }
         public DateTime Date {get; set;}
         public string Key { get; set; }
+        public long Size { get; set; }
 
         public Video(string filename) {
 
@@ -50,7 +51,7 @@ namespace CamList.Models
             Date = date;
             Path = filename;
             Key = CiphererService.Encrypt(filename);
-            //Path64 = Base64Encode(filename);
+            Size = new System.IO.FileInfo(filename).Length;
         }
 
         public string GetDate()
