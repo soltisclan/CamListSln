@@ -7,20 +7,20 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
-<body onload="init()">
+<body onload="init()" onresize="resizeList()">
     <div class="container">
-        <div class="row-eq-height">
-            <div class="col-md-10 col-xs-12" style="background-color:pink">
-                <div class="embed-responsive embed-responsive-16by9" style="background-color:lightcyan">
+        <div class="row">
+            <div class="col-md-10 col-xs-12">
+                <div class="embed-responsive embed-responsive-16by9">
                     <video id="video" controls class="embed-responsive-item">
                         <source src="" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
             </div>
-            <div class="col-md-2 col-xs-12" style="background-color:lightblue">
-                <div id="content" style="height:400px;overflow-y:scroll; font-size:12px"></div>
-                <div style="background-color:lightgreen">
+            <div class="col-md-2 col-xs-12">
+                <div id="list" style="overflow-y:scroll;">Loading...</div>
+                <div id="datepicker">
                     <input type="date" id="date" onchange="getVideos(document.getElementById('date').value)" />
                 </div>
             </div>

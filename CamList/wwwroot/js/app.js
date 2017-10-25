@@ -3,6 +3,7 @@
 function init() {
     var date = new Date();
     date = date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    resizeList();
     getDates();
 }
 
@@ -48,9 +49,9 @@ function getVideos(date) {
 function loadVideos() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
         if (httpRequest.status === 200) {
-            var contentDiv = document.getElementById("content");
-            while (contentDiv.hasChildNodes()) {
-                contentDiv.removeChild(contentDiv.lastChild);
+            var listDiv = document.getElementById("list");
+            while (listDiv.hasChildNodes()) {
+                listDiv.removeChild(listDiv.lastChild);
             }
             var videos = JSON.parse(httpRequest.response);
             var previousHour = "";
@@ -59,14 +60,14 @@ function loadVideos() {
                 var a = document.createElement("A");
                 var br = document.createElement("BR");
                 var fileSize = video.size / 1048576;
-                var linkTime = document.createTextNode(getTime(video.date) + " " + fileSize.toFixed(2) + "MB");
+                var linkTime = document.createTextNode(getTime(video.date) + " (" + fileSize.toFixed(2) + "MB)");
 
                 var currentHour = getTime(video.date).substring(0, 2);
                 if (currentHour != previousHour) {
                     var p = document.createElement("P");
                     var linkHour = document.createTextNode(currentHour);
                     p.appendChild(linkHour);
-                    contentDiv.appendChild(p);
+                    listDiv.appendChild(p);
                 }
                 previousHour = currentHour;
 
@@ -75,8 +76,8 @@ function loadVideos() {
                 onClickAttr.value = "playVideo('api/outdoor/file/" + video.key + "')";
                 a.setAttributeNode(onClickAttr);
                 a.href = "#";
-                contentDiv.appendChild(a);
-                contentDiv.appendChild(br);
+                listDiv.appendChild(a);
+                listDiv.appendChild(br);
             });
             //alert(httpRequest.responseText);
         } else {
@@ -109,4 +110,18 @@ function playVideo(sourceURL) {
 
 function getTime(datetime) {
     return datetime.split("T")[1];
+}
+
+function resizeList() {
+	var list = document.getElementById("list");
+	var video = document.getElementById("video");
+	var datepicker = document.getElementById("datepicker");
+
+	if (window.innerWidth < 992) {
+		var height = window.innerHeight - video.offsetHeight - datepicker.offsetHeight;
+		list.style.height = height + "px"
+	} else  {
+		var height = video.offsetHeight - datepicker.offsetHeight;
+		list.style.height = height +"px";
+	}
 }
